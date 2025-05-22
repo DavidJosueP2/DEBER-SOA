@@ -1,0 +1,21 @@
+{
+    "name": "John",
+    "age": 30,
+    "city": "New York",
+    "isMarried": true,
+    "hobbies": ["reading", "travelling"],
+    "address": [{
+        "street": "5th Avenue",
+        "zip": "10001"
+    }, {
+        "street": "6th Avenue",
+        "zip": "10002"
+    }, {
+        "street": "7th Avenue",
+        "zip": "10003"
+    }, {
+        "street": "8th Avenue",
+        "zip": "10004"
+    }]
+
+}

@@ -1,0 +1,35 @@
+Listar información: Listar el título, año y duración de todas las películas.
+Contar información: Mostrar los títulos de las películas y el número de actores/actrices que tiene cada una.
+Buscar o filtrar información: Mostrar las películas que contengan en la sinopsis dos palabras dadas.
+Buscar información relacionada: Mostrar las películas en las que ha trabajado un actor dado.
+Ejercicio libre: Mostrar el título y la url del póster de las tres películas con una media de puntuaciones más alta y lanzadas entre dos fechas dadas.
+
+En una planta de envasado de líquidos, disponen de 5 tipos de envases, 3 tipos de contenedores para
+empaquetar grupos de envases y 10 tipos de líquidos que pueden ser almacenados en los envases.
+Sin embargo, hay ciertas restricciones en los líquidos que pueden ser almacenados en cada envase y
+los tamaños de los envases hacen que no se pueda almacenar todos los envases en todos los
+contenedores.
+• Tenemos contenedores:
+◦ Grandes, acepta envases grandes
+◦ Medianos, no acepta envases grandes
+◦ Verticales, acepta envases altos
+• Tenemos envases:
+◦ Grande ancho, válido para alimentos
+◦ Grande alto, válido para alimentos
+◦ Mediano ancho, válido para alimentos
+◦ Mediano alto, resistente a sustancias corrosivas
+◦ Pequeño, resistente a sustancias corrosivas
+• Tenemos líquidos:
+◦ Agua
+◦ Leche
+◦ Lejía
+◦ Amoniaco
+◦ Jabón
+◦ Aguarrás
+◦ Gasolina
+◦ Aceite
+◦ Vinagre
+◦ Alcohol
+Para estos líquidos, envases y contenedores, crear un fichero JSON
+que represente esta información relativa a lo que puede ser almacenado en cada uno de los tres
+niveles

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let movies = [];
+        let filteredMovies = [];
+
+        function loadMovies() {
+            let xhr = new   XMLHttpRequest();
+            xhr.open("GET", "/movies.json", true);
+            xhr.onload = () => {
+                if (xhr.status == 200){
+                    movies = JSON.parse(xhr.responseText);
+                    filteredMovies = [...movies];
+                    filterMovies("","Chronicles","Morgan");
+                    showMovies();
+                }
+            }
+            xhr.send();
+        }
+
+        function showMovies(){
+            console.log("Películas encontradas:" + movies.length);
+            
+            filteredMovies.forEach( (movie, index) => {
+                console.log(index+1 + "." + movie.title + " ("+ movie.year +")" + " - " + movie.duration);
+                console.log("Actores/Actrices Pertenecietes: "+movie.actors.length);
+                console.log(movie.actors.join(", "));
+                
+            });
+        }
+
+        function filterMovies(keyword1, keyword2, actor){
+            filteredMovies = movies.filter((movie) =>{
+                let matchesKeyword1 = !keyword1 || movie.storyline.toLowerCase().includes(keyword1.toLowerCase());
+                let matchesKeyword2 = !keyword2 || movie.storyline.toLowerCase().includes(keyword2.toLowerCase());
+                let actorMatches = !actor || movie.actors.some(a => a.toLowerCase().includes(actor.toLowerCase()));
+
+                return matchesKeyword1 && matchesKeyword2 && actorMatches;
+            });
+        }
+
+        loadMovies();
+    </script>
+</body>
+</html>

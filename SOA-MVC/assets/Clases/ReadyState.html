@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estados de AJAX</title>
+</head>
+<body>
+    <h2>Estados de una Petición AJAX</h2>
+    
+    <button id="startRequest">Hacer Petición</button>
+    
+    <p>Estado actual: <span id="statusText">Esperando...</span></p>
+    
+    <script>
+        document.getElementById("startRequest").addEventListener("click", function() {
+            var http = new XMLHttpRequest();
+            
+            http.onreadystatechange = function() {
+                let statusText = document.getElementById("statusText");
+                
+                switch (this.readyState) {
+                    case 0:
+                        statusText.innerText = "0: UNSENT (No inicializado)";
+                        break;
+                    case 1:
+                        statusText.innerText = "1: OPENED (Conexión abierta)";
+                        break;
+                    case 2:
+                        statusText.innerText = "2: HEADERS_RECEIVED (Cabeceras recibidas)";
+                        break;
+                    case 3:
+                        statusText.innerText = "3: LOADING (Recibiendo datos)";
+                        break;
+                    case 4:
+                        statusText.innerText = "4: DONE (Completado)";
+                        if (this.status === 200) {
+                            statusText.innerText += " - Respuesta exitosa";
+                        } else {
+                            statusText.innerText += " - Error HTTP: " + this.status;
+                        }
+                        break;
+                }
+            };
+
+            http.open("GET", "./example.json", true);
+            http.send();
+        });
+    </script>
+</body>
+</html>

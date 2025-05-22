@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOA</title>
+</head>
+<body>
+    <script>
+        var cadena = "Hola Mundo";
+        console.log(typeof(cadena));
+        // Strinfy.- permite convertir un tipo de dato a un formato json
+        var miJavaScript = JSON.stringify(cadena);
+        console.log(miJavaScript);
+        console.log(typeof(miJavaScript));
+        var entero= 45;
+        console.log(entero);
+        console.log(typeof(entero));
+
+        var miJavaScriptEntero = JSON.stringify(entero);
+        console.log(miJavaScriptEntero);
+        console.log(typeof(miJavaScriptEntero));
+
+        var arreglo = ["Lunes", "Martes", "Miercoles"];
+        console.log(arreglo[1]);
+        console.log(typeof(arreglo));
+
+        var miJavaScriptArreglo = JSON.stringify(arreglo[1]);
+        console.log(miJavaScriptArreglo);
+        console.log(typeof(miJavaScriptArreglo));
+
+        var booleano = true;
+        console.log(booleano);
+        console.log(typeof(booleano));
+
+        var miJavaScriptbooleano = JSON.stringify(booleano);
+        console.log(miJavaScriptbooleano);
+        console.log(typeof(miJavaScriptbooleano));
+
+        // Arreglo de objetos, se puede tener diferentes tipos de datos, pueden tener más atributos que sean diferentes 
+        // uno a otro, y se puede colocar otro arreglo dentro de un arreglo ya definido
+        var arregloObjeto=[{"nombre": "Maybelline", "apellido" : "Navarro", "edad": 20, "educación" : 
+        [{"primaria" : "Teresa Flor", "secundaria": "Teresa Flor", "superior" : "UTA"}]},
+        {"nombre": "Maybelline", "apellido" : "Navarro", "edad": 20, "educación" : 
+        [{"primaria" : "Teresa Flor", "secundaria": "Gonzales Suarez", "superior" : "UTA"}]},
+        {"nombre": "Alfredo", "apellido" : "Navarro", "edad": 14}];
+        console.log(arregloObjeto);
+        console.log(typeof(arregloObjeto));
+
+        console.log(arregloObjeto[0].nombre);
+
+
+        for (let i = 0; i < arregloObjeto.length; i++) {
+            let primaria = arregloObjeto[i].educación?.[0]?.primaria;
+            if (primaria) console.log(`Educación Primaria de ${arregloObjeto[i].nombre}: ${primaria}`);
+        }
+        console.log("Fin");
+        
+        // Convertir un arreglo de objetos a un formato json
+        var miJavaScriptarregloObjeto = JSON.stringify(arregloObjeto);
+        console.log(miJavaScriptarregloObjeto);
+        console.log(typeof(miJavaScriptarregloObjeto));
+
+        var objectJS = JSON.parse(miJavaScriptarregloObjeto);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: darkblue; }
+        .movie { cursor: pointer; padding: 10px; border-bottom: 1px solid #ddd; }
+        .movie:hover { background-color: #f0f0f0; }
+        .details { display: none; padding: 10px; border-left: 3px solid #007BFF; margin: 5px 0; background: #f9f9f9; }
+        img { max-width: 120px; display: block; margin-top: 5px; }
+        .filters { margin-bottom: 20px; }
+        #result-count { font-weight: bold; margin-bottom: 10px; color: #007BFF; }
+    </style>
+</head>
+<body>
+
+    <h1>Películas</h1>
+
+    <div class="filters">
+        <h2>Filtrar por Palabras en la Sinopsis</h2>
+        <input type="text" id="keyword1" placeholder="Palabra 1">
+        <input type="text" id="keyword2" placeholder="Palabra 2">
+        <button onclick="applyFilters()">Filtrar</button>
+
+        <h2>Filtrar por Actor</h2>
+        <input type="text" id="actor-name" placeholder="Nombre del actor">
+        <button onclick="applyFilters()">Filtrar</button>
+    </div>
+
+    <h2>Lista de Películas</h2>
+    <p id="result-count">Resultados encontrados: 0</p>
+    <div id="movie-list"></div>
+
+    <h2>Top 3 Películas Mejor Valoradas</h2>
+    <input type="date" id="start-date">
+    <input type="date" id="end-date">
+    <button onclick="topRatedMovies()">Buscar</button>
+    <div id="top-movies"></div>
+
+    <script>
+        let movies = [];
+        let filteredMovies = [];
+
+        function loadMovies() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "movies.json", true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    movies = JSON.parse(xhr.responseText);
+                    filteredMovies = [...movies];
+                    displayMovies();
+                }
+            };
+            xhr.send();
+        }
+
+        function displayMovies() {
+            let container = document.getElementById("movie-list");
+            let resultCount = document.getElementById("result-count");
+            container.innerHTML = "";
+            resultCount.textContent = `Resultados encontrados: ${filteredMovies.length}`;
+
+            filteredMovies.forEach((movie, index) => {
+                container.innerHTML += `
+                    <div class="movie" onclick="toggleDetails(${index})">
+                        <strong>${movie.title}</strong> (${movie.year}) - ${formatDuration(movie.duration)}
+                        <div id="details-${index}" class="details">
+                            <p><strong>Sinopsis:</strong> ${movie.storyline}</p>
+                            <p><strong>Actores:</strong> ${movie.actors.join(", ")}</p>
+                            <p><strong>Número de actores:</strong> ${movie.actors.length}</p>
+                            <p><strong>Puntuación media:</strong> ${calculateAverageRating(movie.ratings)}</p>
+                            <img src="${movie.posterurl}" alt="${movie.title}">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleDetails(index) {
+            let details = document.getElementById(`details-${index}`);
+            details.style.display = details.style.display === "block" ? "none" : "block";
+        }
+
+        function applyFilters() {
+            let keyword1 = document.getElementById("keyword1").value.toLowerCase();
+            let keyword2 = document.getElementById("keyword2").value.toLowerCase();
+            let actor = document.getElementById("actor-name").value.toLowerCase();
+
+            filteredMovies = movies.filter(movie => {
+                let matchesKeywords = (!keyword1 || movie.storyline.toLowerCase().includes(keyword1)) &&
+                                      (!keyword2 || movie.storyline.toLowerCase().includes(keyword2));
+                let matchesActor = !actor || movie.actors.some(a => a.toLowerCase().includes(actor));
+
+                return matchesKeywords && matchesActor;
+            });
+
+            displayMovies();
+        }
+
+        function topRatedMovies() {
+            let startDate = new Date(document.getElementById("start-date").value);
+            let endDate = new Date(document.getElementById("end-date").value);
+            let container = document.getElementById("top-movies");
+            container.innerHTML = "";
+
+            let sortedMovies = movies
+                .filter(movie => {
+                    let releaseDate = new Date(movie.releaseDate);
+                    return releaseDate >= startDate && releaseDate <= endDate;
+                })
+                .map(movie => {
+                    let avgRating = movie.ratings.reduce((a, b) => a + b, 0) / movie.ratings.length;
+                    return { ...movie, avgRating };
+                })
+                .sort((a, b) => b.avgRating - a.avgRating)
+                .slice(0, 3);
+
+            if (sortedMovies.length === 0) {
+                container.innerHTML = "<p>No se encontraron películas en este rango de fechas.</p>";
+                return;
+            }
+
+            sortedMovies.forEach(movie => {
+                container.innerHTML += `<div class="movie">
+                    <strong>${movie.title}</strong> - Puntuación media: ${movie.avgRating.toFixed(2)}
+                    <img src="${movie.posterurl}" alt="${movie.title}">
+                </div>`;
+            });
+        }
+
+        function formatDuration(duration) {
+            return duration.replace("PT", "").replace("M", " minutos");
+        }
+
+        function calculateAverageRating(ratings) {
+            let avg = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+            return avg.toFixed(2);
+        }
+
+        window.onload = loadMovies;
+    </script>
+
+</body>
+</html>

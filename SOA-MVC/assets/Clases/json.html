@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Example</title>
+</head>
+<body>
+    <h2>Ejemplo de AJAX</h2>
+    <div id="staticDiv">Este contenido permanece igual.</div>
+    <div id="dynamicDiv">Presiona el botón para cargar datos.</div>
+    <button id="loadData">Cargar Datos</button>
+
+    <script>
+        document.getElementById("loadData").addEventListener("click", function() {
+            var http = new XMLHttpRequest();
+            
+            http.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("dynamicDiv").innerHTML = this.responseText;
+
+                    var responseText = JSON.parse(this.responseText);
+                    console.log(responseText.address[3].street);
+                }
+            };
+            
+
+            http.open("GET", "./example.json", true);
+            http.send();
+        });
+    </script>
+</body>
+</html>
