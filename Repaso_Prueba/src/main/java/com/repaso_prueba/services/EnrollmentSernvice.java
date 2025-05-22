@@ -47,7 +47,6 @@ public class EnrollmentSernvice {
     }
 
     public boolean create(Enrollment enrollment) throws Exception {
-
         String json = gson.toJson(enrollment);
 
         HttpRequest req = HttpRequest.newBuilder()
@@ -81,7 +80,6 @@ public class EnrollmentSernvice {
     }
     
     public boolean delete(Long id) throws Exception {
-        
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/" + id))
                 .DELETE()

@@ -516,6 +516,7 @@ public class MainForm extends javax.swing.JFrame {
 
         // -1 si no hay nada seleccionado.
         int selected = this.JTblEstudiantes.getSelectedRow();
+        if (selected < 0) return;
         Long id = (Long) this.JTblEstudiantes.getValueAt(selected, 0);
         try {
             boolean result = this.studentService.delete(id);
@@ -571,7 +572,7 @@ public class MainForm extends javax.swing.JFrame {
     private void jBtnEliminarCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarCursosActionPerformed
 
         int row = this.jTblCursos.getSelectedRow();
-
+        if (row < 0) return;
         Long id = (Long) this.jTblCursos.getValueAt(row, 0);
 
         try {
@@ -588,20 +589,20 @@ public class MainForm extends javax.swing.JFrame {
 
         int selected = this.jTblCursos.getSelectedRow();
 
-        if (selected != -1) {
+        if (selected == -1) return;
 
-            Long id = (Long) this.jTblCursos.getValueAt(selected, 0);
-            String titulo = this.jTxtFTitulo.getText().trim();
-            String descripcion = this.jTxtFDescripcion.getText().trim();
+        Long id = (Long) this.jTblCursos.getValueAt(selected, 0);
+        String titulo = this.jTxtFTitulo.getText().trim();
+        String descripcion = this.jTxtFDescripcion.getText().trim();
 
-            Course course = new Course(titulo, descripcion);
-            try {
-                this.courseService.update(id, course);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Datos Incorrectos");
-            }
-            generarTablaCursos();
+        Course course = new Course(titulo, descripcion);
+        try {
+            this.courseService.update(id, course);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Datos Incorrectos");
         }
+        generarTablaCursos();
+        
 
 
     }//GEN-LAST:event_jBtnActualizarCursosActionPerformed
@@ -619,7 +620,7 @@ public class MainForm extends javax.swing.JFrame {
 
             try {
                 boolean result = this.enrollmentService.create(enrol);
-                if (!result) JOptionPane.showMessageDialog(null, "Ya existe!");
+                if (!result) JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS!");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Datos Incorrectos");
             }
@@ -632,6 +633,7 @@ public class MainForm extends javax.swing.JFrame {
     private void jBtnEliminarCursoEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEliminarCursoEstudianteActionPerformed
 
         int selected = this.jTblCursoEstudiante.getSelectedRow();
+        if (selected < 0) return;
         Long id = (Long) this.jTblCursoEstudiante.getValueAt(selected, 0);
 
         try {
@@ -646,7 +648,7 @@ public class MainForm extends javax.swing.JFrame {
     private void jBtnActualizarCursoEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnActualizarCursoEstudianteActionPerformed
 
         int row = this.jTblCursoEstudiante.getSelectedRow();
-
+        if (row < 0) return;
         Long id = (Long) this.jTblCursoEstudiante.getValueAt(row, 0);
         Long idEstudiante = Long.parseLong(this.jTxtFEstudiante.getText().trim());
         Long idCurso = Long.parseLong(this.jTxtFCurso.getText().trim());
